@@ -3,4 +3,4 @@
 #       file.o
 #       lib.a
 #       src/internal.o
-PersonalWebsite/.idea/*
+.idea/*
