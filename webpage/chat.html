@@ -6,7 +6,7 @@
     <link href="bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="css/chat.css" rel="stylesheet" media="screen">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="bootstrap-3.3.7/js/bootstrap.js"></script>
 </head>
 <body>
 
@@ -77,15 +77,65 @@
         </div> <!-- end chat-history -->
     </div> <!-- end chat -->
 </div>
+
 <div class="navbar-fixed-bottom">
     <div class="container">
         <div class="msg-input input-group input-group-lg">
-            <input type="text" class="form-control" placeholder="press Enter to send" aria-describedby="sizing-addon1">
+            <input id="msg-content" type="text" class="form-control" placeholder="press Enter to send" aria-describedby="sizing-addon1">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Send!</button>
+                <button id="send-msg" class="btn btn-default" type="button">Send!</button>
             </span>
         </div>
     </div>
 </div>
 </body>
+<script type="application/javascript">
+
+    $(document).ready(function () {
+        $('#send-msg').click(function () {
+            var msg = get_input_msg();
+            send(msg);
+        });
+    });
+
+    function get_input_msg(){
+        return $('#msg-content').val();
+    }
+
+    function clear_input_msg() {
+        $('#msg-content').val('');
+    }
+    
+    function screen_down() {
+        var h = $(document).height()-$(window).height();
+        $(document).scrollTop(h);
+    }
+
+    function send(msg) {
+        show_send_msg(msg);
+        clear_input_msg();
+    }
+
+    function show_send_msg(msg){
+        var html = '<li class="clearfix">\
+                        <div class="message-data align-right">\
+                            <span class="message-data-name"><img src="img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>\
+                            </div>\
+                            <div class="message me-message float-right">' + msg + '</div>\
+                    </li>';
+        $('.chat-ul').append(html);
+        screen_down();
+    }
+
+    function show_receive_msg(msg){
+        var html = '<li>\
+                        <div class="message-data">\
+                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>\
+                        </div>\
+                        <div class="message you-message">' + msg + '</div>\
+                    </li>';
+        $('.chat-ul').append(html);
+    }
+
+</script>
 </html>
