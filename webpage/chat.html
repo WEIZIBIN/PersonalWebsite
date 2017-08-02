@@ -77,7 +77,6 @@
         </div> <!-- end chat-history -->
     </div> <!-- end chat -->
 </div>
-
 <div class="navbar-fixed-bottom">
     <div class="container">
         <div class="msg-input input-group input-group-lg">
@@ -112,8 +111,16 @@
     }
 
     function send(msg) {
-        show_send_msg(msg);
-        clear_input_msg();
+        $.ajax({
+            url:'/xiaoice',
+            type:'POST',
+            contentType:'application/json',
+            data:msg,
+            success:function(data){
+                show_send_msg(msg);
+                clear_input_msg();
+            }
+        });
     }
 
     function show_send_msg(msg){

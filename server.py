@@ -1,11 +1,12 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from os import curdir, sep
+import cgi
+import json
 
 
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-
         if self.path == '/':
             self.path = '/chat.html'
 
@@ -44,6 +45,17 @@ class MyHandler(BaseHTTPRequestHandler):
             return
         except IOError:
             self.send_error(404, 'File Not Found: %s' % self.path)
+
+    def do_POST(self):
+
+        if self.path == '/xiaoice':
+            ctype, pdict = cgi.parse_header(self.headers['content-type'])
+
+            if ctype == 'application/json':
+                length = int(self.headers['content-length'])
+                post_values = json.loads(self.rfile.read(length))
+            else:
+                post_values = {}
 
 
 def run(server_class=HTTPServer, handler_class=MyHandler):
