@@ -111,14 +111,20 @@
     }
 
     function send(msg) {
+        console.log('send');
         $.ajax({
             url:'/xiaoice',
             type:'POST',
-            contentType:'application/json',
-            data:msg,
+            data:{'msg':msg},
             success:function(data){
                 show_send_msg(msg);
                 clear_input_msg();
+                screen_down();
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+                console.log(textStatus);
             }
         });
     }
@@ -131,7 +137,6 @@
                             <div class="message me-message float-right">' + msg + '</div>\
                     </li>';
         $('.chat-ul').append(html);
-        screen_down();
     }
 
     function show_receive_msg(msg){

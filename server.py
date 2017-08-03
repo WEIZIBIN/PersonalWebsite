@@ -44,18 +44,32 @@ class MyHandler(BaseHTTPRequestHandler):
                 f.close()
             return
         except IOError:
-            self.send_error(404, 'File Not Found: %s' % self.path)
+            self.send_error(404, 'Not Found: %s' % self.path)
 
     def do_POST(self):
+
+        sendReply = False
+
 
         if self.path == '/xiaoice':
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
 
-            if ctype == 'application/json':
+            if ctype == 'application/x-www-form-urlencoded':
                 length = int(self.headers['content-length'])
-                post_values = json.loads(self.rfile.read(length))
-            else:
-                post_values = {}
+                post_values = self.rfile.read(length)
+                sendReply = True
+
+        try:
+
+            if sendReply:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(bytes('{"msg":"hello"}', 'UTF8'))
+
+        except IOError:
+            self.send_error(404, 'Not Found: %s' % self.path)
+
 
 
 def run(server_class=HTTPServer, handler_class=MyHandler):
