@@ -50,7 +50,6 @@ class MyHandler(BaseHTTPRequestHandler):
 
         sendReply = False
 
-
         if self.path == '/xiaoice':
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
 
@@ -65,7 +64,9 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(bytes('{"msg":"hello"}', 'UTF8'))
+                response = {'retCode':'0'}
+                response_json = json.dumps(response)
+                self.wfile.write(bytes(response_json, 'UTF8'))
 
         except IOError:
             self.send_error(404, 'Not Found: %s' % self.path)

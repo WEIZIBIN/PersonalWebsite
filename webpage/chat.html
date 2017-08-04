@@ -111,15 +111,17 @@
     }
 
     function send(msg) {
-        console.log('send');
         $.ajax({
             url:'/xiaoice',
             type:'POST',
             data:{'msg':msg},
+            data:'application/json',
             success:function(data){
-                show_send_msg(msg);
-                clear_input_msg();
-                screen_down();
+                if(data.retCode == '0'){
+                    show_send_msg(msg);
+                    clear_input_msg();
+                    screen_down();
+                }
             },
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest.status);
