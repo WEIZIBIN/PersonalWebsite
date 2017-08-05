@@ -14,65 +14,6 @@
     <div class="chat">
         <div class="chat-history">
             <ul class="chat-ul">
-                <li>
-                    <div class="message-data">
-                        <span class="message-data-name"><img src="img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>
-                    </div>
-                    <div class="message you-message">
-                        A new client?!?! I would love to help them, but where are we going to find the time?
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="message-data align-right">
-                        <span class="message-data-name"><img src="img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>
-                    </div>
-                    <div class="message me-message float-right"> We should take a look at your onboarding and service delivery workflows, for most businesess there are many ways to save time and not compromise quality.  </div>
-                </li>
-                <li class="clearfix">
-                    <div class="message-data">
-                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>
-                    </div>
-                    <div class="message you-message">
-                        What?! No way, how did I miss that. I never forgot that part before.
-
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="message-data align-right">
-                        <span class="message-data-name"><img src="img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>
-                    </div>
-                    <div class="message me-message float-right">Remembering everything can quickly become impossible as your business grows, we need to take a look at your reminder management system and also see if there are steps in your business we can automate.</div>
-                </li>
-                <li>
-                    <div class="message-data">
-                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>
-                    </div>
-                    <div class="message you-message">
-                        6? Bob told me 8! How did this mix up happen?!
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="message-data align-right">
-                        <span class="message-data-name"><img src="img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>
-                    </div>
-                    <div class="message me-message float-right">
-                        The more people in your business, the more opportunity for mistakes, having a solid system in place for tracking important client data will help avoid these miscommunications.            </div>
-                </li>
-                <li>
-                    <div class="message-data">
-                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>
-                    </div>
-                    <div class="message you-message">
-                        I know that I spoke with Mary about this, but where did I put that note...hopefully she also sent me an email...
-
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="message-data align-right">
-                        <span class="message-data-name"><img src="img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>
-                    </div>
-                    <div class="message me-message float-right">Finding the right information when you need it will save you time and energy.Your data management systems need to grow with your business. All businesses need a dynamic data strategy and a system to ensure that the strategy is implemented correctly.</div>
-                </li>
             </ul>
         </div> <!-- end chat-history -->
     </div> <!-- end chat -->
@@ -90,11 +31,13 @@
 </body>
 <script type="application/javascript">
 
+    var polling_id = 0;
     $(document).ready(function () {
         $('#send-msg').click(function () {
             var msg = get_input_msg();
             send(msg);
         });
+        polling_msg();
     });
 
     function get_input_msg(){
@@ -115,7 +58,6 @@
             url:'/xiaoice',
             type:'POST',
             data:{'msg':msg},
-            data:'application/json',
             success:function(data){
                 if(data.retCode == '0'){
                     show_send_msg(msg);
@@ -129,6 +71,27 @@
                 console.log(textStatus);
             }
         });
+    }
+
+    function polling_msg(){
+        $.ajax({
+            url:'/im',
+            type:'POST',
+            data:{'id':polling_id,'clientid':'fvioeqnoire'},
+            success:function (data) {
+                if(data.retCode == '0'){
+                    if(data.msg != null){
+                        show_receive_msg(data.msg);
+                    }
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+                console.log(textStatus);
+            }
+        });
+        polling_id++;
     }
 
     function show_send_msg(msg){

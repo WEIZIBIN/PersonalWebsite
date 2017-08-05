@@ -43,6 +43,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.wfile.write(f.read())
                 f.close()
             return
+
         except IOError:
             self.send_error(404, 'Not Found: %s' % self.path)
 
@@ -50,6 +51,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
         sendReply = False
 
+        # url: /xiaoice
         if self.path == '/xiaoice':
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
 
@@ -58,19 +60,40 @@ class MyHandler(BaseHTTPRequestHandler):
                 post_values = self.rfile.read(length)
                 sendReply = True
 
-        try:
+            try:
 
-            if sendReply:
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                response = {'retCode':'0'}
-                response_json = json.dumps(response)
-                self.wfile.write(bytes(response_json, 'UTF8'))
+                if sendReply:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    response = {'retCode':'0'}
+                    response_json = json.dumps(response)
+                    self.wfile.write(bytes(response_json, 'UTF8'))
 
-        except IOError:
-            self.send_error(404, 'Not Found: %s' % self.path)
+            except IOError:
+                self.send_error(404, 'Not Found: %s' % self.path)
 
+        # url: /im
+        if self.path == '/im':
+            ctype, pdict = cgi.parse_header(self.headers['content-type'])
+
+            if ctype == 'application/x-www-form-urlencoded':
+                length = int(self.headers['content-length'])
+                post_values = self.rfile.read(length)
+                sendReply = True
+                print(post_values)
+
+            try:
+                if sendReply:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    response = {'retCode': '0', 'msg': 'Send msg to talk with xiaoice!'}
+                    response_json = json.dumps(response)
+                    self.wfile.write(bytes(response_json, 'UTF8'))
+
+            except IOError:
+                self.send_error(404, 'Not Found: %s' % self.path)
 
 
 def run(server_class=HTTPServer, handler_class=MyHandler):
