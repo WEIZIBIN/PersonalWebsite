@@ -56,7 +56,7 @@
     function send(msg) {
         var data = {'msg':msg};
         $.ajax({
-            url:'/xiaoice',
+            url:'/message',
             type:'POST',
             contentType:'application/json',
             data:JSON.stringify(data),
@@ -87,6 +87,7 @@
                         show_receive_msg(data.msg);
                     }
                 }
+                polling_msg()
             },
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest.status);
