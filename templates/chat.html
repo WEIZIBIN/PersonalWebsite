@@ -21,7 +21,7 @@
 <div class="navbar-fixed-bottom">
     <div class="container">
         <div class="msg-input input-group input-group-lg">
-            <input id="msg-content" type="text" class="form-control" placeholder="press Enter to send" aria-describedby="sizing-addon1">
+            <input id="msg-content" type="text" class="form-control" onkeydown="if(event.keyCode==13) send_msg();" placeholder="press Enter to send" aria-describedby="sizing-addon1">
             <span class="input-group-btn">
                 <button id="send-msg" class="btn btn-default" type="button">Send!</button>
             </span>
@@ -33,12 +33,14 @@
 
     var polling_id = 0;
     $(document).ready(function () {
-        $('#send-msg').click(function () {
-            var msg = get_input_msg();
-            send(msg);
-        });
+        $('#send-msg').click(send_msg);
         polling_msg();
     });
+
+    function send_msg(){
+        var msg = get_input_msg();
+        send(msg);
+    }
 
     function get_input_msg(){
         return $('#msg-content').val();
@@ -80,6 +82,7 @@
         $.ajax({
             url:'/im',
             type:'POST',
+            contentType:'application/json',
             data:JSON.stringify(data),
             success:function (data) {
                 if(data.retCode == '0'){
