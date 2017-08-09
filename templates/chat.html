@@ -39,7 +39,9 @@
 
     function send_msg(){
         var msg = get_input_msg();
-        send(msg);
+        if(msg){
+            send(msg);
+        }
     }
 
     function get_input_msg(){
