@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat</title>
-    <link href="/static/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="/static/css/chat.css" rel="stylesheet" media="screen">
-    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+    <link href="{{url_for('static', filename='bootstrap-3.3.7/css/bootstrap.css') }}" rel="stylesheet" media="screen">
+    <link href="{{url_for('static', filename='css/chat.css') }}" rel="stylesheet" media="screen">
+    <script src="{{url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{url_for('static', filename='bootstrap-3.3.7/js/bootstrap.js') }}"></script>
 </head>
 <body>
 
@@ -60,7 +60,7 @@
     function send(msg) {
         var data = {'msg':msg};
         $.ajax({
-            url:'/message',
+            url:'{{ url_for('message') }}',
             type:'POST',
             contentType:'application/json',
             data:JSON.stringify(data),
@@ -82,7 +82,7 @@
     function polling_msg(){
         var data = {'id':polling_id,'clientid':'fvioeqnoire'};
         $.ajax({
-            url:'/im',
+            url:'{{ url_for('im') }}',
             type:'POST',
             contentType:'application/json',
             data:JSON.stringify(data),
@@ -106,7 +106,7 @@
     function show_send_msg(msg){
         var html = '<li class="clearfix">\
                         <div class="message-data align-right">\
-                            <span class="message-data-name"><img src="/static/img/headimg_visitor.jpg" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>\
+                            <span class="message-data-name"><img src="{{url_for('static', filename='img/headimg_visitor.jpg') }}" class="head-img img-rounded" /></span> <i class="fa fa-circle me"></i>\
                             </div>\
                             <div class="message me-message float-right">' + msg + '</div>\
                     </li>';
@@ -116,7 +116,7 @@
     function show_receive_msg(msg){
         var html = '<li>\
                         <div class="message-data">\
-                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="/static/img/headimg_xiaoice.jpg" class="head-img img-rounded" /></span>\
+                        <span class="message-data-name"><i class="fa fa-circle you"></i><img src="{{url_for('static', filename='img/headimg_xiaoice.jpg') }}" class="head-img img-rounded" /></span>\
                         </div>\
                         <div class="message you-message">' + msg + '</div>\
                     </li>';
