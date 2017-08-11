@@ -5,7 +5,6 @@ import rsa
 import binascii
 import json
 import logging
-import log
 import base64
 import urllib.parse
 import threading
@@ -305,7 +304,6 @@ def init_xiaoice():
 
 
 def main():
-    log.set_logging(loggingLevel=logging.DEBUG)
     weibo = init_xiaoice()
     print(weibo.post_msg_to_xiaoice('我爱你'))
 

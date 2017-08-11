@@ -1,6 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from weibo import init_xiaoice
+import logging.config
 
+logging.config.fileConfig('log.conf')
 app = Flask(__name__)
 xiaoice = init_xiaoice()
 

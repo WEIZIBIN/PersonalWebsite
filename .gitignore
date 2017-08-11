@@ -4,3 +4,4 @@
 #       lib.a
 #       src/internal.o
 .idea/*
+log/*
