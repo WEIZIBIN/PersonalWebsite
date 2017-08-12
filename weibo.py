@@ -92,9 +92,9 @@ class Weibo():
 
         # get captcha if needs
         if self.pre_login_response['showpin'] == 1:
-            url = 'http://login.sina.com.cn/cgi/pin.php?r=%d&s=0&p=%s' % (servertime, self.pre_login_response['pcid'])
+            captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=%d&s=0&p=%s' % (servertime, self.pre_login_response['pcid'])
             with open('captcha.jpeg', 'wb') as file_out:
-                file_out.write(self.s.get(url).content)
+                file_out.write(self.s.get(captcha_url).content)
             code = input('（新浪微博登录）请输入验证码：')
             params['pcid'] = self.pre_login_response['pcid']
             params['door'] = code

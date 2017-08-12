@@ -4,4 +4,7 @@
 #       lib.a
 #       src/internal.o
 .idea/*
-log/*
+log/error.log
+log/info.log
+log/debug.log
+config.py
