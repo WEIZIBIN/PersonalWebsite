@@ -59,7 +59,7 @@
     function send(msg) {
         var data = {'msg':msg};
         $.ajax({
-            url:'{{ url_for('message') }}',
+            url:'{{ url_for('chat.message') }}',
             type:'POST',
             contentType:'application/json',
             data:JSON.stringify(data),
@@ -81,7 +81,7 @@
     function polling_msg(){
         var data = {'id':polling_id,'clientid':'fvioeqnoire'};
         $.ajax({
-            url:'{{ url_for('im') }}',
+            url:'{{ url_for('chat.im') }}',
             type:'POST',
             contentType:'application/json',
             data:JSON.stringify(data),
