@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from weibo import init_xiaoice
+from flask_website.weibo import init_xiaoice
 
 chat = Blueprint('chat', __name__)
 # xiaoice = init_xiaoice()
@@ -7,6 +7,7 @@ chat = Blueprint('chat', __name__)
 
 @chat.route('/index')
 def index():
+    print(chat.root_path)
     return render_template('chat.html')
 
 

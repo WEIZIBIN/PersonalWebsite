@@ -1,15 +1,17 @@
-import requests
-import time
-import re
-import rsa
+import base64
 import binascii
 import json
 import logging
-import base64
-import urllib.parse
-import threading
 import queue
-from config import weibo_username, weibo_password
+import re
+import threading
+import time
+import urllib.parse
+
+import requests
+import rsa
+
+from flask_website.config import weibo_username, weibo_password
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
