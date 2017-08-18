@@ -1,5 +1,4 @@
-from flask_login import UserMixin
-from flask_website.config import admin_username, admin_password
+from flask_website.config import admin_id, admin_username, admin_password
 
 
 class User:
@@ -10,13 +9,22 @@ class User:
         self.password = password
 
     def is_authenticated(self):
-        pass
+        if self.username == admin_username and self.admin_password == admin_password:
+            return True
+        return False
 
     def is_active(self):
-        pass
+        return True
 
     def is_anonymous(self):
-        pass
+        return False
 
     def get_id(self):
-        pass
+        return self.id
+
+    @staticmethod
+    def get_by_id(id):
+        if id == admin_id:
+            User(admin_id, admin_username, admin_password)
+        else:
+            return None

@@ -4,5 +4,6 @@
 weibo_username = 'weibo_username'
 weibo_password = 'weibo_password'
 
+admin_id = 'admin_id'
 admin_username = 'admin_username'
 admin_password = 'admin_password'

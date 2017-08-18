@@ -7,7 +7,6 @@ chat = Blueprint('chat', __name__)
 
 @chat.route('/index')
 def index():
-    print(chat.root_path)
     return render_template('chat.html')
 
 
