@@ -1,7 +1,8 @@
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, flash, redirect, url_for
 from flask_login import login_user, login_required
 from flask_website.user import User
 from flask_website import login_manager
+from flask_website.config import admin_id, admin_username,admin_password
 
 admin = Blueprint('admin', __name__)
 
@@ -12,10 +13,12 @@ def login():
 
         username = request.form['username']
         password = request.form['password']
-        user = User('1', username, password)
-        if login_user(user):
-            return 'login success:' + username
-
+        if username == admin_username and password == admin_password:
+            user = User(admin_id, admin_username, admin_password)
+            if login_user(user):
+                return redirect(url_for('admin.index'))
+        else:
+            flash('Invalid username or password!', category='danger')
     return render_template('admin/login.html')
 
 
@@ -27,8 +30,9 @@ def index():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    # todo
-    pass
+    flash('Please login first!', category='danger')
+    return redirect(url_for('admin.login'))
+
 
 @login_manager.user_loader
 def load_user(id):

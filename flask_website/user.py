@@ -9,9 +9,7 @@ class User:
         self.password = password
 
     def is_authenticated(self):
-        if self.username == admin_username and self.admin_password == admin_password:
-            return True
-        return False
+        return True
 
     def is_active(self):
         return True
