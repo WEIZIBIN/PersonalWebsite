@@ -15,8 +15,8 @@ def login():
         password = request.form['password']
         if username == admin_username and password == admin_password:
             user = User(admin_id, admin_username, admin_password)
-            if login_user(user):
-                return redirect(url_for('admin.index'))
+            login_user(user)
+            return redirect(url_for('admin.index'))
         else:
             flash('Invalid username or password!', category='danger')
     return render_template('admin/login.html')

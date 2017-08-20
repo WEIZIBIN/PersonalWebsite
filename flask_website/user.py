@@ -23,6 +23,6 @@ class User:
     @staticmethod
     def get_by_id(id):
         if id == admin_id:
-            User(admin_id, admin_username, admin_password)
+            return User(admin_id, admin_username, admin_password)
         else:
             return None
