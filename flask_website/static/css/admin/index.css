@@ -25,6 +25,10 @@ body {
     border: 0;
 }
 
+.btn-logout {
+    margin-right: 0;
+}
+
 /*
  * Sidebar
  */
