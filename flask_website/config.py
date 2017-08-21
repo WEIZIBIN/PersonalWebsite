@@ -10,3 +10,10 @@ session_type = 'session_type'
 admin_id = 'admin_id'
 admin_username = 'admin_username'
 admin_password = 'admin_password'
+
+db_host = 'db_host'
+db_port = 3306
+db_user = 'root'
+db_password = 'db_password'
+db_schema = 'db_schema'
+db_charset = 'utf8mb4'
