@@ -14,7 +14,7 @@ connection = pymysql.connect(host=db_host,
 def add_xiaoice(weibo_username, weibo_password):
     with connection.cursor() as cursor:
         sql = 'INSERT INTO xiaoice (weibo_username, weibo_password) VALUES (%s, %s)'
-        cursor.execute(sql, (weibo_username, weibo_password));
+        cursor.execute(sql, (weibo_username, weibo_password))
     connection.commit()
 
 
@@ -30,10 +30,10 @@ def get_xiaoice_list():
     connection.commit()
 
 
-def insert_xiaoice_log(xiaoice_id, log):
+def insert_xiaoice_log(xiaoice_id, msg, log_level, log_time):
     with connection.cursor() as cursor:
-        sql = 'INSERT INTO xiaoice_log (xiaoice_id, log) VALUES (%s, %s)'
-        cursor.execute(sql, (xiaoice_id, log));
+        sql = 'INSERT INTO xiaoice_log (xiaoice_id, msg, log_level, log_time) VALUES (%s, %s, %s, %s)'
+        cursor.execute(sql, (xiaoice_id, msg, log_level, log_time))
     connection.commit()
 
 
