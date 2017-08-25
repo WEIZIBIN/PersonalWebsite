@@ -30,13 +30,6 @@ def get_xiaoice_list():
     connection.commit()
 
 
-def insert_xiaoice_log(xiaoice_id, msg, log_level, log_time):
-    with connection.cursor() as cursor:
-        sql = 'INSERT INTO xiaoice_log (xiaoice_id, msg, log_level, log_time) VALUES (%s, %s, %s, %s)'
-        cursor.execute(sql, (xiaoice_id, msg, log_level, log_time))
-    connection.commit()
-
-
 def delete_xiaoice(id):
     with connection.cursor() as cursor:
         sql = 'DELETE FROM xiaoice WHERE id = %s'
