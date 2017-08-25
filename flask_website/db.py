@@ -26,7 +26,6 @@ def get_xiaoice_list():
         for row in result:
             id = row['id']
             weibo_username = row['weibo_username']
-            print("id=%s,weibo_username=%s" % (id, weibo_username))
     connection.commit()
 
 

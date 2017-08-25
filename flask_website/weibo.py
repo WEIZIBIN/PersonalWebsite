@@ -9,7 +9,6 @@ import time
 import urllib.parse
 import requests
 import rsa
-
 from flask_website.config import weibo_username, weibo_password
 
 headers = {
@@ -42,6 +41,7 @@ class Weibo():
         self._get_login()
         self._redirect_login()
         logger.info('weibo login success')
+        insert_xiaoice_log(se)
 
     def _pre_login(self):
         url = 'https://login.sina.com.cn/sso/prelogin.php'
