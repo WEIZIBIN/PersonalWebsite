@@ -9,7 +9,7 @@ import time
 import urllib.parse
 import requests
 import rsa
-from flask_website.config import weibo_username, weibo_password
+from flask_website.config import weibo_username as my_username, weibo_password as my_password
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
@@ -30,18 +30,28 @@ class Weibo():
         self.redirect_url = None  # redirect login url
         self.jsonp = None  # im handshake parameter
         self.client_id = None  # client_id to polling WeiboIM
-        self.im_ready = False # Is IM ready to send or receive msg
-        self.im_channel = None # IM channel to subscribe
+        self.need_captcha = False  # Is Weibo Login need captcha
+        self.is_login = False  # Is Weibo login
+        self.im_ready = False  # Is IM ready to send or receive msg
+        self.im_channel = None  # IM channel to subscribe
         self.msg_queue = None
         self.polling_id = 3  # IM polling_id start from 3
 
     def login(self):
         self._pre_login()
+        # If needs captcha, login interrupt
+        if self.need_captcha:
+            return
         self._post_login()
         self._get_login()
         self._redirect_login()
         logger.info('weibo login success')
-        insert_xiaoice_log(se)
+
+    def login_with_captcha(self, captcha):
+        self._post_login(captcha=captcha)
+        self._get_login()
+        self._redirect_login()
+        logger.info('weibo login success')
 
     def _pre_login(self):
         url = 'https://login.sina.com.cn/sso/prelogin.php'
@@ -62,9 +72,16 @@ class Weibo():
         logger.debug('pre login response : %s' % response_data)
         self.pre_login_response = response_data
 
-    def _post_login(self):
+        # check if needs captcha
+        self.need_captcha = self.pre_login_response['showpin'] == 1
+        self.post_servertime = int(time.time())
+        if self.need_captcha:
+            self.captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=%d&s=0&p=%s' \
+                           % (self.post_servertime, self.pre_login_response['pcid'])
+
+    def _post_login(self, captcha=None):
         url = 'http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)'
-        servertime = int(time.time())
+        servertime = self.post_servertime
         nonce = self.pre_login_response['nonce']
         pubkey = self.pre_login_response['pubkey']
         rsakv = self.pre_login_response['rsakv']
@@ -91,14 +108,10 @@ class Weibo():
             'returntype': 'TEXT'
         }
 
-        # get captcha if needs
-        if self.pre_login_response['showpin'] == 1:
-            captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=%d&s=0&p=%s' % (servertime, self.pre_login_response['pcid'])
-            with open('captcha.jpeg', 'wb') as file_out:
-                file_out.write(self.s.get(captcha_url).content)
-            code = input('（新浪微博登录）请输入验证码：')
+        # put captcha to params
+        if self.need_captcha:
             params['pcid'] = self.pre_login_response['pcid']
-            params['door'] = code
+            params['door'] = captcha
 
         logger.debug('attempt to post login url : %s params : %s' % (url, params))
         response_json = self.s.post(url, data=params).json()
@@ -297,15 +310,21 @@ class Weibo():
         return datas
 
 
-def init_xiaoice():
-    weibo = Weibo(weibo_username, weibo_password)
-    weibo.login()
-    weibo.im_init()
-    return weibo
+def init_xiaoice(weibo_username, weibo_password):
+    xiaoice = Weibo(weibo_username, weibo_password)
+    xiaoice.login()
+    xiaoice.im_init()
+    return xiaoice
+
+
+def init_xiaoice_with_captcha(xiaoice, captcha):
+    xiaoice.login_with_captcha(captcha)
+    xiaoice.im_init()
+    return xiaoice
 
 
 def main():
-    weibo = init_xiaoice()
+    weibo = init_xiaoice(my_username, my_password)
     print(weibo.post_msg_to_xiaoice('我爱你'))
 
 
