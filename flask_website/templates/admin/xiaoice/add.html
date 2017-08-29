@@ -32,7 +32,7 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="sub-header">add xiaoice</h2>
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="{{ url_for('xiaoice.add') }}">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Weibo username</label>
                     <div class="col-sm-3">
@@ -51,9 +51,6 @@
                     </div>
                 </div>
             </form>
-            <h3 class="sub-header">runtime</h3>
-            <p>hello</p>
-            <p>world</p>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ import json
 import logging
 import queue
 import re
-import threading
+from threading import Thread
 import time
 import urllib.parse
 import requests
@@ -163,7 +163,7 @@ class Weibo():
             self._subscribe_msg()
             self._switch_to_xiaoice()
             self.msg_queue = queue.Queue(10)
-            threading.Thread(target=self._polling_msg_from_xiaoice).start()
+            Thread(target=self._polling_msg_from_xiaoice).start()
             logger.info('Weibo IM init success')
         self.im_ready = True
 

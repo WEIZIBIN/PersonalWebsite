@@ -1,7 +1,11 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
+from threading import Thread
+
+from flask_website.weibo import init_xiaoice, init_xiaoice_with_captcha
 
 xiaoice = Blueprint('xiaoice', __name__)
+dict_xiaoice = {}
 
 
 @xiaoice.route('/index')
@@ -15,5 +19,44 @@ def index():
 def add():
     if request.method == 'GET':
         return render_template('admin/xiaoice/add.html')
+
     if request.method == 'POST':
-        pass
+        username = request.form['username']
+        password = request.form['password']
+        Thread(target=_handle_add_xiaoice(username, password)).start()
+        return redirect(url_for('xiaoice.index'))
+
+
+@xiaoice.route('/get_captcha', methods=['GET'])
+@login_required
+def get_captcha():
+    username = request.args.get('username')
+    xiaoice = dict_xiaoice[username]
+    if not xiaoice.is_login and xiaoice.need_captcha:
+        render_template('admin/xiaoice/captcha_dialog.html', username=username)
+
+
+@xiaoice.route('/show_captcha', methods=['GET'])
+@login_required
+def show_captcha_url():
+    username = request.args.get('username')
+    # todo write image to page
+
+
+@xiaoice.route('/input_captcha', methods=['POST'])
+@login_required
+def input_captcha():
+    username = request.form['username']
+    captcha = request.form['captcha']
+    _handle_input_captcha(username, captcha)
+    # todo return ok
+
+
+def _handle_input_captcha(username, captcha):
+    xiaoice = dict_xiaoice[username]
+    init_xiaoice_with_captcha(xiaoice, captcha)
+
+
+def _handle_add_xiaoice(username, password):
+    xiaoice = init_xiaoice(username, password)
+    dict_xiaoice[username] = xiaoice
