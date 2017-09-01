@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Control Panel</title>
+    <link href="{{ url_for('static', filename='bootstrap-3.3.7/css/bootstrap.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/admin/index.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-3.3.7/js/bootstrap.js') }}"></script>
 </head>
 <body>
-$END$
+<div class="container">
+    <div class="row">
+        <form>
+            <div class="form-group">
+                <img src="{{ url_for('xiaoice.show_captcha') }}"/>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-3 ">
+                    <input type="text" class="form-control"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

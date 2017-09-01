@@ -47,6 +47,11 @@ class Weibo():
         self._redirect_login()
         logger.info('weibo login success')
 
+    def get_captcha(self):
+        if self.captcha_url is None:
+            return None
+        return self.s.get(self.captcha_url).content
+
     def login_with_captcha(self, captcha):
         self._post_login(captcha=captcha)
         self._get_login()

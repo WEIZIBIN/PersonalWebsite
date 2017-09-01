@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+import requests
+from flask import Blueprint, render_template, request, redirect, url_for, Response
 from flask_login import login_required
 from threading import Thread
 
@@ -30,17 +31,20 @@ def add():
 @xiaoice.route('/get_captcha', methods=['GET'])
 @login_required
 def get_captcha():
-    username = request.args.get('username')
-    xiaoice = dict_xiaoice[username]
-    if not xiaoice.is_login and xiaoice.need_captcha:
-        render_template('admin/xiaoice/captcha_dialog.html', username=username)
+    # username = request.args.get('username')
+    # xiaoice = dict_xiaoice[username]
+    # if not xiaoice.is_login and xiaoice.need_captcha:
+    #     return render_template('admin/xiaoice/captcha_dialog.html', username=username)
+    return render_template('admin/xiaoice/captcha_dialog.html')
 
 
 @xiaoice.route('/show_captcha', methods=['GET'])
 @login_required
-def show_captcha_url():
-    username = request.args.get('username')
+def show_captcha():
+    # username = request.args.get('username')
     # todo write image to page
+    captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=150000&s=0&p=fdsfd'
+    return Response(requests.session().get(captcha_url).content, mimetype='image/jpeg')
 
 
 @xiaoice.route('/input_captcha', methods=['POST'])
