@@ -33,7 +33,6 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="sub-header">xiaoice list</h2>
 
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-default" onclick="window.location.href='{{ url_for('xiaoice.add') }}'">
                 add xiaoice
             </button>
@@ -43,23 +42,25 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
+                        <th>username</th>
+                        <th>login</th>
+                        <th>need captcha</th>
+                        <th>input captcha</th>
                     </tr>
                     </thead>
                     <tbody>
+                    {% for username, xiaoice in dict_xiaoice.items()  %}
                     <tr>
-                        <td>1,001</td>
-                        <td>Lorem</td>
-                        <td>ipsum</td>
-                        <td>dolor</td>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ username }}</td>
+                        <td>{{ xiaoice.is_login }}</td>
+                        <td>{{ xiaoice.need_captcha }}</td>
                         <td>
                             <input type="button" value="Input Captcha" class="btn btn-default"
-                                   onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username='13631231952') }}')" />
+                                   onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')" />
                         </td>
                     </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

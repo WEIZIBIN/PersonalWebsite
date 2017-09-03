@@ -11,13 +11,14 @@
 <body>
 <div class="container">
     <div class="row">
-        <form>
+        <form method="post" action="{{ url_for('xiaoice.input_captcha') }}">
             <div class="form-group">
-                <img src="{{ url_for('xiaoice.show_captcha') }}"/>
+                <img src="{{ url_for('xiaoice.show_captcha', username=username) }}"/>
             </div>
             <div class="form-group">
                 <div class="col-xs-3 ">
-                    <input type="text" class="form-control"/>
+                    <input type="text" name="captcha" class="form-control"/>
+                    <input type="hidden" name="username" value="{% username %}">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

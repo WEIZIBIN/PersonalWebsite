@@ -1,4 +1,3 @@
-import requests
 from flask import Blueprint, render_template, request, redirect, url_for, Response
 from flask_login import login_required
 from threading import Thread
@@ -12,7 +11,7 @@ dict_xiaoice = {}
 @xiaoice.route('/index')
 @login_required
 def index():
-    return render_template('admin/xiaoice/index.html')
+    return render_template('admin/xiaoice/index.html', dict_xiaoice=dict_xiaoice)
 
 
 @xiaoice.route('/add', methods=['GET', 'POST'])
@@ -31,20 +30,18 @@ def add():
 @xiaoice.route('/get_captcha', methods=['GET'])
 @login_required
 def get_captcha():
-    # username = request.args.get('username')
-    # xiaoice = dict_xiaoice[username]
-    # if not xiaoice.is_login and xiaoice.need_captcha:
-    #     return render_template('admin/xiaoice/captcha_dialog.html', username=username)
-    return render_template('admin/xiaoice/captcha_dialog.html')
+    username = request.args.get('username')
+    xiaoice = _get_xiaoice_by_username(username)
+    if not xiaoice.is_login and xiaoice.need_captcha:
+        return render_template('admin/xiaoice/captcha_dialog.html', username=username)
 
 
 @xiaoice.route('/show_captcha', methods=['GET'])
 @login_required
 def show_captcha():
-    # username = request.args.get('username')
-    # todo write image to page
-    captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=150000&s=0&p=fdsfd'
-    return Response(requests.session().get(captcha_url).content, mimetype='image/jpeg')
+    username = request.args.get('username')
+    xiaoice = _get_xiaoice_by_username(username)
+    return Response(xiaoice.get_captcha(), mimetype='image/jpeg')
 
 
 @xiaoice.route('/input_captcha', methods=['POST'])
@@ -52,15 +49,20 @@ def show_captcha():
 def input_captcha():
     username = request.form['username']
     captcha = request.form['captcha']
-    _handle_input_captcha(username, captcha)
-    # todo return ok
+    Thread(target=_handle_input_captcha(username, captcha)).start()
+    return redirect(url_for('xiaoice.index'))
+
+
+def _get_xiaoice_by_username(username):
+    return dict_xiaoice[username]
 
 
 def _handle_input_captcha(username, captcha):
-    xiaoice = dict_xiaoice[username]
+    xiaoice = _get_xiaoice_by_username(username)
     init_xiaoice_with_captcha(xiaoice, captcha)
 
 
 def _handle_add_xiaoice(username, password):
     xiaoice = init_xiaoice(username, password)
     dict_xiaoice[username] = xiaoice
+    xiaoice.im_init()

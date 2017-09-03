@@ -46,6 +46,7 @@ class Weibo():
         self._get_login()
         self._redirect_login()
         logger.info('weibo login success')
+        self.is_login = True
 
     def get_captcha(self):
         if self.captcha_url is None:
@@ -57,6 +58,7 @@ class Weibo():
         self._get_login()
         self._redirect_login()
         logger.info('weibo login success')
+        self.is_login = True
 
     def _pre_login(self):
         url = 'https://login.sina.com.cn/sso/prelogin.php'
