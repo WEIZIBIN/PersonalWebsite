@@ -7,10 +7,10 @@ app.register_blueprint(chat)
 app.register_blueprint(general)
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(xiaoice, url_prefix='/admin/xiaoice')
+logging.config.fileConfig('log.conf')
+login_manager.init_app(app)
+app.secret_key = secret_key
+app.config['SESSION_TYPE'] = session_type
 
 if __name__ == '__main__':
-    logging.config.fileConfig('log.conf')
-    login_manager.init_app(app)
-    app.secret_key = secret_key
-    app.config['SESSION_TYPE'] = session_type
     app.run(threaded=True, debug=True)

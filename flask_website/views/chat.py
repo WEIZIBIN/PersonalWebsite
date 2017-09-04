@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
-from flask_website.weibo import init_xiaoice
+from flask_website.views import dict_xiaoice
 
 chat = Blueprint('chat', __name__)
-# xiaoice = init_xiaoice()
 
 
 @chat.route('/index')
@@ -23,3 +22,8 @@ def im():
     post_data = request.get_json()
     # msg = xiaoice.get_msg_from_xiaoice()
     return jsonify(retCode='0', msg='hello')
+
+
+def _get_available_xiaoice():
+    # todo select available xiaoice object
+    pass
