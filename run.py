@@ -2,12 +2,13 @@ from flask_website import app, login_manager
 from flask_website.views import chat, general, admin, xiaoice
 from flask_website.config import secret_key, session_type
 import logging.config
+from os import path
 
+logging.config.fileConfig(path.join(path.dirname(path.abspath(__file__)), 'log.conf'))
 app.register_blueprint(chat)
 app.register_blueprint(general)
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(xiaoice, url_prefix='/admin/xiaoice')
-logging.config.fileConfig('log.conf')
 login_manager.init_app(app)
 app.secret_key = secret_key
 app.config['SESSION_TYPE'] = session_type
