@@ -80,7 +80,8 @@ class Weibo():
         self.pre_login_response = response_data
 
         # check if needs captcha
-        self.need_captcha = self.pre_login_response['showpin'] == 1
+        if self.pre_login_response['showpin'] == 1:
+            self.need_captcha = True
         logger.debug('Is need captcha: %s' % self.need_captcha)
         self.post_servertime = int(time.time())
         if self.need_captcha:
