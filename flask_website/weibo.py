@@ -14,7 +14,7 @@ from flask_website.config import weibo_username as my_username, weibo_password a
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
 }
-logger = logging.getLogger('xiaoice')
+logger = logging.getLogger('weibo')
 xiaoice_uid = 5175429989
 polling_wait_second = 0
 
@@ -81,6 +81,7 @@ class Weibo():
 
         # check if needs captcha
         self.need_captcha = self.pre_login_response['showpin'] == 1
+        logger.debug('Is need captcha: %s' % self.need_captcha)
         self.post_servertime = int(time.time())
         if self.need_captcha:
             self.captcha_url = 'http://login.sina.com.cn/cgi/pin.php?r=%d&s=0&p=%s' \
@@ -320,19 +321,19 @@ class Weibo():
 def init_xiaoice(weibo_username, weibo_password):
     xiaoice = Weibo(weibo_username, weibo_password)
     xiaoice.login()
-    xiaoice.im_init()
+    if xiaoice.is_login:
+        xiaoice.im_init()
     return xiaoice
 
 
 def init_xiaoice_with_captcha(xiaoice, captcha):
     xiaoice.login_with_captcha(captcha)
     xiaoice.im_init()
-    return xiaoice
 
 
 def main():
     weibo = init_xiaoice(my_username, my_password)
-    print(weibo.post_msg_to_xiaoice('我爱你'))
+    print(weibo.post_msg_to_xiaoice('I love you'))
 
 
 if __name__ == '__main__':

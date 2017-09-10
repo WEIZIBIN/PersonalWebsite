@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, render_template, request, redirect, url_for, Response
 from flask_login import login_required
 from threading import Thread
@@ -7,6 +8,7 @@ from flask_website.weibo import init_xiaoice, init_xiaoice_with_captcha
 xiaoice = Blueprint('xiaoice', __name__)
 dict_xiaoice = {}
 
+logger = logging.getLogger('admin.xiaoice')
 
 @xiaoice.route('/index')
 @login_required
@@ -64,5 +66,5 @@ def _handle_input_captcha(username, captcha):
 
 def _handle_add_xiaoice(username, password):
     xiaoice = init_xiaoice(username, password)
+    logger.debug('add %s to dict xiaoice' % xiaoice)
     dict_xiaoice[username] = xiaoice
-    xiaoice.im_init()
