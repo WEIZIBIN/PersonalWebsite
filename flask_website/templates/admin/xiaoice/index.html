@@ -45,6 +45,7 @@
                         <th>username</th>
                         <th>login</th>
                         <th>need captcha</th>
+                        <th>im ready</th>
                         <th>input captcha</th>
                     </tr>
                     </thead>
@@ -55,6 +56,7 @@
                         <td>{{ username }}</td>
                         <td>{{ xiaoice.is_login }}</td>
                         <td>{{ xiaoice.need_captcha }}</td>
+                        <td>{{ xiaoice.im_ready }}</td>
                         <td>
                             <input type="button" value="Input Captcha" class="btn btn-default"
                                    onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')" />

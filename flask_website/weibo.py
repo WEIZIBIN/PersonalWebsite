@@ -174,7 +174,7 @@ class Weibo():
             self.msg_queue = queue.Queue(10)
             Thread(target=self._polling_msg_from_xiaoice).start()
             logger.info('Weibo IM init success')
-        self.im_ready = True
+            self.im_ready = True
 
     def _request_webim(self):
         url = 'http://api.weibo.com/webim/webim_nas.json'
