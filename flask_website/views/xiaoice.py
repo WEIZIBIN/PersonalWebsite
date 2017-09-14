@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, Respon
 from flask_login import login_required
 from threading import Thread
 from flask_website import xiaoice_storage
-from flask_website.weibo import init_xiaoice, init_xiaoice_with_captcha
+from flask_website.weibo import init_weibo_im, init_weibo_im_with_captcha
 
 xiaoice = Blueprint('xiaoice', __name__)
 
@@ -55,11 +55,11 @@ def input_captcha():
 
 
 def _handle_input_captcha(username, captcha):
-    xiaoice = xiaoice_storage.get_xiaoice_by_username(username)
-    init_xiaoice_with_captcha(xiaoice, captcha)
+    weibo = xiaoice_storage.get_xiaoice_by_username(username).weibo
+    init_weibo_im_with_captcha(weibo, captcha)
 
 
 def _handle_add_xiaoice(username, password):
-    xiaoice = init_xiaoice(username, password)
-    logger.debug('add %s to xiaoice storage' % xiaoice)
-    xiaoice_storage.add_xiaoice(xiaoice)
+    weibo = init_weibo_im(username, password)
+    logger.debug('add Weibo username: %s to xiaoice storage' % username)
+    xiaoice_storage.add_xiaoice(weibo)

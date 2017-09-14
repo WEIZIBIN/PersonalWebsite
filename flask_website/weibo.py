@@ -319,21 +319,21 @@ class Weibo():
         return datas
 
 
-def init_xiaoice(weibo_username, weibo_password):
-    xiaoice = Weibo(weibo_username, weibo_password)
-    xiaoice.login()
-    if xiaoice.is_login:
-        xiaoice.im_init()
-    return xiaoice
+def init_weibo_im(weibo_username, weibo_password):
+    weibo = Weibo(weibo_username, weibo_password)
+    weibo.login()
+    if weibo.is_login:
+        weibo.im_init()
+    return weibo
 
 
-def init_xiaoice_with_captcha(xiaoice, captcha):
-    xiaoice.login_with_captcha(captcha)
-    xiaoice.im_init()
+def init_weibo_im_with_captcha(weibo, captcha):
+    weibo.login_with_captcha(captcha)
+    weibo.im_init()
 
 
 def main():
-    weibo = init_xiaoice(my_username, my_password)
+    weibo = init_weibo_im(my_username, my_password)
     print(weibo.post_msg_to_xiaoice('I love you'))
 
 
