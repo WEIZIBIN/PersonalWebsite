@@ -6,11 +6,14 @@ class Xiaoice():
         self._weibo = weibo
         self.client_id = None
 
-    def getWeibo(self):
+    def get_weibo(self):
         return self._weibo
 
-    def post_msg(self, msg):
+    def send_msg(self, msg):
         self._weibo.post_msg_to_xiaoice(msg)
+
+    def get_msg(self):
+        return self._weibo.get_msg_from_xiaoice()
 
     def is_avail(self):
         if self._weibo.im_ready:
@@ -23,7 +26,7 @@ def get_xiaoice_by_username(username):
 
 def add_xiaoice(weibo):
     xiaoice = Xiaoice(weibo)
-    dict_xiaoice[xiaoice.getWeibo().username] = xiaoice
+    dict_xiaoice[xiaoice.get_weibo().username] = xiaoice
 
 
 def get_all_xiaoice():

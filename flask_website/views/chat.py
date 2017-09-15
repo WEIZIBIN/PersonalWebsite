@@ -14,7 +14,7 @@ def message():
     post_data = request.get_json()
     msg = post_data['msg']
     xiaoice = xiaoice_storage.get_avail_xiaoice()
-    xiaoice.post_msg_to_xiaoice(msg)
+    xiaoice.send_msg(msg)
     return jsonify(retCode='0')
 
 
@@ -22,6 +22,6 @@ def message():
 def im():
     post_data = request.get_json()
     xiaoice = xiaoice_storage.get_avail_xiaoice()
-    msg = xiaoice.get_msg_from_xiaoice()
+    msg = xiaoice.get_msg()
     return jsonify(retCode='0', msg=msg)
 

@@ -54,9 +54,9 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ username }}</td>
-                        <td>{{ xiaoice.is_login }}</td>
-                        <td>{{ xiaoice.need_captcha }}</td>
-                        <td>{{ xiaoice.im_ready }}</td>
+                        <td>{{ xiaoice.get_weibo().is_login }}</td>
+                        <td>{{ xiaoice.get_weibo().need_captcha }}</td>
+                        <td>{{ xiaoice.get_weibo().im_ready }}</td>
                         <td>
                             <input type="button" value="Input Captcha" class="btn btn-default"
                                    onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')" />
