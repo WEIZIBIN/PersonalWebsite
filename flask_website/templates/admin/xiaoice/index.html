@@ -5,7 +5,7 @@
     <title>Control Panel</title>
     <link href="{{ url_for('static', filename='bootstrap-3.3.7/css/bootstrap.css') }}" rel="stylesheet" media="screen">
     <link href="{{ url_for('static', filename='css/admin/index.css') }}" rel="stylesheet" media="screen">
-    <script src="{{url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap-3.3.7/js/bootstrap.js') }}"></script>
 </head>
 <body>
@@ -42,6 +42,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>client id</th>
                         <th>username</th>
                         <th>login</th>
                         <th>need captcha</th>
@@ -50,18 +51,33 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for username, xiaoice in free_xiaoice.items()  %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ username }}</td>
-                        <td>{{ xiaoice.get_weibo().is_login }}</td>
-                        <td>{{ xiaoice.get_weibo().need_captcha }}</td>
-                        <td>{{ xiaoice.get_weibo().im_ready }}</td>
-                        <td>
-                            <input type="button" value="Input Captcha" class="btn btn-default"
-                                   onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')" />
-                        </td>
-                    </tr>
+                    {% for username, xiaoice in free_xiaoice.items() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td></td>
+                            <td>{{ username }}</td>
+                            <td>{{ xiaoice.get_weibo().is_login }}</td>
+                            <td>{{ xiaoice.get_weibo().need_captcha }}</td>
+                            <td>{{ xiaoice.get_weibo().im_ready }}</td>
+                            <td>
+                                <input type="button" value="Input Captcha" class="btn btn-default"
+                                       onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')"/>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% for client_id, xiaoice in work_xiaoice.items() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ client_id }}</td>
+                            <td>{{ xiaoice.get_weibo().username }}</td>
+                            <td>{{ xiaoice.get_weibo().is_login }}</td>
+                            <td>{{ xiaoice.get_weibo().need_captcha }}</td>
+                            <td>{{ xiaoice.get_weibo().im_ready }}</td>
+                            <td>
+                                <input type="button" value="Input Captcha" class="btn btn-default"
+                                       onclick="show_dialog('{{ url_for('xiaoice.get_captcha', username=username) }}')"/>
+                            </td>
+                        </tr>
                     {% endfor %}
                     </tbody>
                 </table>
@@ -70,7 +86,7 @@
     </div>
 </div>
 <div class="modal fade" id="modal">
-    <div class="modal-dialog" >
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -87,10 +103,10 @@
 </div>
 </body>
 <script type="application/javascript">
-    function show_dialog(url){
+    function show_dialog(url) {
         var frameSrc = url;
         $("#iframe").attr("src", frameSrc);
-        $('#modal').modal({ show: true, backdrop: 'static' });
+        $('#modal').modal({show: true, backdrop: 'static'});
     }
 </script>
 </html>

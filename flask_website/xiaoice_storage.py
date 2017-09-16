@@ -32,13 +32,17 @@ def add_xiaoice(weibo):
     free_xiaoice[weibo.username] = xiaoice
 
 
-def get_all_xiaoice():
+def get_free_xiaoice():
     return free_xiaoice
+
+
+def get_work_xiaoice():
+    return work_xiaoice
 
 
 def get_avail_xiaoice_client_id():
     for username, xiaoice in free_xiaoice.items():
         if xiaoice.is_avail():
-            client_id = uuid.uuid3(uuid.NAMESPACE_OID, username)
+            client_id = str(uuid.uuid3(uuid.NAMESPACE_OID, username))
             work_xiaoice[client_id] = free_xiaoice.pop(username)
-            return client_id.__str__()
+            return client_id
