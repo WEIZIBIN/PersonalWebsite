@@ -1,9 +1,8 @@
 import uuid
 
-work_xiaoice={}
-free_xiaoice={}
+work_xiaoice = {}
+free_xiaoice = {}
 
-UUID_NAMESPACE_XIAOICE = 'CHAT_XIAOICE'
 
 class Xiaoice():
     def __init__(self, weibo):
@@ -40,6 +39,6 @@ def get_all_xiaoice():
 def get_avail_xiaoice_client_id():
     for username, xiaoice in free_xiaoice.items():
         if xiaoice.is_avail():
-            client_id = uuid.uuid3(UUID_NAMESPACE_XIAOICE, username)
+            client_id = uuid.uuid3(uuid.NAMESPACE_OID, username)
             work_xiaoice[client_id] = free_xiaoice.pop(username)
             return client_id.__str__()
