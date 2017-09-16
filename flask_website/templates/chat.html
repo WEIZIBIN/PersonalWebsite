@@ -79,7 +79,7 @@
     }
 
     function polling_msg(){
-        var data = {'id':polling_id,'clientid':'fvioeqnoire'};
+        var data = {'id':polling_id};
         $.ajax({
             url:'{{ url_for('chat.im') }}',
             type:'POST',

@@ -12,7 +12,7 @@ logger = logging.getLogger('admin.xiaoice')
 @xiaoice.route('/index')
 @login_required
 def index():
-    return render_template('admin/xiaoice/index.html', dict_xiaoice=xiaoice_storage.get_all_xiaoice())
+    return render_template('admin/xiaoice/index.html', free_xiaoice=xiaoice_storage.get_all_xiaoice())
 
 
 @xiaoice.route('/add', methods=['GET', 'POST'])
