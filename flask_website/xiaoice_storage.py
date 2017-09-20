@@ -14,8 +14,8 @@ class Xiaoice():
     def send_msg(self, msg):
         self._weibo.post_msg_to_xiaoice(msg)
 
-    def get_msg(self):
-        return self._weibo.get_msg_from_xiaoice()
+    def get_msg(self, timeout=70):
+        return self._weibo.get_msg_from_xiaoice(timeout)
 
     def is_avail(self):
         if self._weibo.im_ready:

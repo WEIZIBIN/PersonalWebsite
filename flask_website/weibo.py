@@ -242,8 +242,12 @@ class Weibo():
         response = self.s.get(url, params=params)
         logger.debug('switch to xiaoice success response : %s' % response.text)
 
-    def get_msg_from_xiaoice(self):
-        return self.msg_queue.get()
+    def get_msg_from_xiaoice(self, timeout):
+        try:
+            msg = self.msg_queue.get(timeout=timeout)
+        except queue.Empty:
+            return None
+        return msg
 
     def post_msg_to_xiaoice(self, msg):
         url = 'http://api.weibo.com/webim/2/direct_messages/new.json?source=209678993'
