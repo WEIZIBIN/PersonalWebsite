@@ -1,12 +1,8 @@
-# here connect to weibo, get xiaoice chat robot
-# properties for weibo login
-# set your weibo username and password
-weibo_username = 'weibo_username'
-weibo_password = 'weibo_password'
-
 secret_key = 'secret_key'
-session_type = 'session_type'
 
 admin_id = 'admin_id'
 admin_username = 'admin_username'
 admin_password = 'admin_password'
+
+xiaoice_timeout = 70
+disconnect_after_not_post_back = 10
