@@ -1,4 +1,5 @@
 import uuid
+from flask_website.config import xiaoice_timeout
 
 work_xiaoice = {}
 free_xiaoice = {}
@@ -14,8 +15,8 @@ class Xiaoice():
     def send_msg(self, msg):
         self._weibo.post_msg_to_xiaoice(msg)
 
-    def get_msg(self, timeout=70):
-        return self._weibo.get_msg_from_xiaoice(timeout)
+    def get_msg(self):
+        return self._weibo.get_msg_from_xiaoice(xiaoice_timeout)
 
     def is_avail(self):
         if self._weibo.im_ready:
@@ -46,3 +47,8 @@ def get_avail_xiaoice_client_id():
             client_id = str(uuid.uuid3(uuid.NAMESPACE_OID, username))
             work_xiaoice[client_id] = free_xiaoice.pop(username)
             return client_id
+
+
+def free_xiaoice_by_client_id(client_id):
+    xiaoice = work_xiaoice.pop(k=client_id)
+    free_xiaoice[xiaoice.get_weibo().username] = xiaoice
