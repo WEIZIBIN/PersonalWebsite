@@ -9,7 +9,6 @@ import time
 import urllib.parse
 import requests
 import rsa
-from flask_website.config import weibo_username as my_username, weibo_password as my_password
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
@@ -334,12 +333,3 @@ def init_weibo_im(weibo_username, weibo_password):
 def init_weibo_im_with_captcha(weibo, captcha):
     weibo.login_with_captcha(captcha)
     weibo.im_init()
-
-
-def main():
-    weibo = init_weibo_im(my_username, my_password)
-    print(weibo.post_msg_to_xiaoice('I love you'))
-
-
-if __name__ == '__main__':
-    main()

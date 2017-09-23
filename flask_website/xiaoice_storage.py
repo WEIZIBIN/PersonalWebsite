@@ -50,5 +50,6 @@ def get_avail_xiaoice_client_id():
 
 
 def free_xiaoice_by_client_id(client_id):
-    xiaoice = work_xiaoice.pop(k=client_id)
-    free_xiaoice[xiaoice.get_weibo().username] = xiaoice
+    if work_xiaoice[client_id] is not None:
+        xiaoice = work_xiaoice.pop(client_id)
+        free_xiaoice[xiaoice.get_weibo().username] = xiaoice
