@@ -28,11 +28,16 @@ def message():
 
 @chat.route('/im', methods=['POST'])
 def im():
+
     client_id = session['client_id']
-    last_im_time[client_id] = time.time()
-    Timer(disconnect_after_not_post_back, check_im_alive, args=(client_id,)).start()
     xiaoice = xiaoice_storage.get_xiaoice_by_client_id(session['client_id'])
+
     msg = xiaoice.get_msg()
+
+    last_im_time[client_id] = time.time()
+    timer = Timer(disconnect_after_not_post_back, check_im_alive, args=(client_id,))
+    timer.start()
+
     return jsonify(retCode='0', msg=msg)
 
 
