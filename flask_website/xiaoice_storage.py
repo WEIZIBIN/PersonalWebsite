@@ -47,6 +47,7 @@ def get_avail_xiaoice_client_id():
             client_id = str(uuid.uuid3(uuid.NAMESPACE_OID, username))
             work_xiaoice[client_id] = free_xiaoice.pop(username)
             return client_id
+    return None
 
 
 def free_xiaoice_by_client_id(client_id):

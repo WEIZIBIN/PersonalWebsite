@@ -12,9 +12,24 @@ last_im_time = {}
 
 @chat.route('/index')
 def index():
-    client_id = xiaoice_storage.get_avail_xiaoice_client_id()
-    session['client_id'] = client_id
     return render_template('chat.html')
+
+
+@chat.route('/handshake', methods=['POST'])
+def handshake():
+
+    # second request
+    client_id = session['client_id']
+    if client_id is not None:
+        return jsonify(retCode='1', msg='Hello, I am here!')
+
+    # first request
+    client_id = xiaoice_storage.get_avail_xiaoice_client_id()
+    if client_id is not None:
+        session['client_id'] = client_id
+        return jsonify(retCode='0', msg='Hello, I am xiaoice!')
+
+    return jsonify(retCode='-1', msg='Xiaoice is busy!')
 
 
 @chat.route('/message', methods=['POST'])
@@ -23,7 +38,6 @@ def message():
     msg = post_data['msg']
     xiaoice = xiaoice_storage.get_xiaoice_by_client_id(session['client_id'])
     xiaoice.send_msg(msg)
-    return jsonify(retCode='0')
 
 
 @chat.route('/im', methods=['POST'])
