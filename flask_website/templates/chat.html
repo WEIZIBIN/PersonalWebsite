@@ -33,7 +33,7 @@
     var polling_id = 0;
     $(document).ready(function () {
         $('#send-msg').click(send_msg);
-        polling_msg();
+        handshake();
     });
 
     function send_msg(){
@@ -41,6 +41,25 @@
         if(msg){
             send(msg);
         }
+    }
+
+    function handshake(){
+        $.ajax({
+            url:'{{ url_for('chat.handshake') }}',
+            type:'POST',
+            contentType:'application/json',
+            success:function(data){
+                if(data.retCode >= 0){
+                    polling_msg()
+                }
+                show_receive_msg(data.msg)
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+                console.log(textStatus);
+            }
+        });
     }
 
     function get_input_msg(){

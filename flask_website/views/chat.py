@@ -19,8 +19,7 @@ def index():
 def handshake():
 
     # second request
-    client_id = session['client_id']
-    if client_id is not None:
+    if 'client_id' in session:
         return jsonify(retCode='1', msg='Hello, I am here!')
 
     # first request
@@ -38,6 +37,7 @@ def message():
     msg = post_data['msg']
     xiaoice = xiaoice_storage.get_xiaoice_by_client_id(session['client_id'])
     xiaoice.send_msg(msg)
+    return jsonify(retCode='0', msg=msg)
 
 
 @chat.route('/im', methods=['POST'])
