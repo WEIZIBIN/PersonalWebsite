@@ -1,9 +1,10 @@
+import time
 from threading import Timer
 
 from flask import Blueprint, render_template, request, jsonify, session
-from flask_website import xiaoice_storage
+
 from flask_website.config import disconnect_after_not_post_back
-import time
+from flask_website.im import xiaoice_storage
 
 chat = Blueprint('chat', __name__)
 

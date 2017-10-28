@@ -1,9 +1,11 @@
 import logging
+from threading import Thread
+
 from flask import Blueprint, render_template, request, redirect, url_for, Response
 from flask_login import login_required
-from threading import Thread
-from flask_website import xiaoice_storage
-from flask_website.weibo import init_weibo_im, init_weibo_im_with_captcha
+
+from flask_website.chat.weibo import init_weibo_im, init_weibo_im_with_captcha
+from flask_website.im import xiaoice_storage
 
 xiaoice = Blueprint('xiaoice', __name__)
 
